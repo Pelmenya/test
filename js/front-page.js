@@ -1,13 +1,15 @@
 function main() {
   const ERROR_NAME = 'имя должно быть от 2 до 40 символов';
-  const ERROR_TEL ='телефон в формате: +7 (123) 456-78-90';
-  const ERROR_EMAIL='e-mail в формате: sega@yandex.ru'
-
+  const ERROR_TEL = 'телефон в формате: +7 (123) 456-78-90';
+  const ERROR_EMAIL = 'e-mail в формате: sega@yandex.ru';
+  const ERROR_DATE = 'нельзя вернуться в прошлое, но можно подождать будущие';
   const inputs = document.querySelectorAll('input');
   const form = document.querySelector('.wpcf7-form');
-  const formEmailSpan = form.querySelector('myEmail');
-  const formTelSpan = form.querySelector('myTel');
-  const formDateSpan = form.querySelector('myDate');
+  const formSubmitBtn = form.querySelector('.mySubmit');
+  let validName = false;
+  let validEmail = false;
+  let validTel = false;
+  let validDate = false;
 
   function checkValidityDate(dateInput) {
     const dateInputArr = dateInput.split('-');
@@ -32,45 +34,67 @@ function main() {
     );
   }
 
-  function clearInputTips() {
-    const wpcf7NotValidTips = form.querySelectorAll('.wpcf7-not-valid-tip');
+  function removeErrorInput(inputName) {
+    const wpcf7NotValidTips = inputName.parentElement.querySelector('.wpcf7-not-valid-tip');
     if (wpcf7NotValidTips) {
-      Object.keys(wpcf7NotValidTips).forEach((item) => {
-        wpcf7NotValidTips[item].parentNode.removeChild(wpcf7NotValidTips[item]);
-      });
+      wpcf7NotValidTips.parentNode.removeChild(wpcf7NotValidTips);
+    }
+  }
+
+  function inputName() {
+    removeErrorInput(form.myName);
+    if (form.myName.checkValidity() && form.myName.value !== '') {
+      validName = true;
+    } else {
+      setErrorInput(form.myName, ERROR_NAME);
+      validName = false;
+    }
+  }
+
+  function inputEmail() {
+    removeErrorInput(form.myEmail);
+    if (
+      form.myEmail.value.match(
+        /^[A-Za-z]((\.|-)?[A-Za-z0-9]+)+@[A-Za-z0-9](-?[A-Za-z0-9]+)+(\.[A-Za-z]{2,})+$/
+      ) &&
+      form.myEmail.value !== ''
+    ) {
+      validEmail = true;
+    } else {
+      setErrorInput(form.myEmail, ERROR_EMAIL);
+      validEmail = false;
+    }
+  }
+
+  function inputTel() {
+    removeErrorInput(form.myTel);
+    if (
+      form.myTel.value.match(/^(\+7|8)\s?(\(\d{3}\)|\d{3})\s?[\-]?\d{3}[\-]?\d{2}[\-]?\d{2}$/) &&
+      form.myTel.value !== ''
+    ) {
+      validTel = true;
+    } else {
+      setErrorInput(form.myTel, ERROR_TEL);
+      validTel = false;
+    }
+  }
+
+  function inputDate() {
+    removeErrorInput(form.myDate);
+    if (checkValidityDate(form.myDate.value) && form.myDate.value !== '') {
+      validDate = true;
+    } else {
+      setErrorInput(form.myDate, ERROR_DATE);
+      validDate = false;
     }
   }
 
   function inputIforaForm() {
-    clearInputTips();
-
-    let valid = false;
-
-    if (
-      form.myEmail.value.match(
-        /^[A-Za-z]((\.|-)?[A-Za-z0-9]+)+@[A-Za-z0-9](-?[A-Za-z0-9]+)+(\.[A-Za-z]{2,})+$/
-      )
-    ) {
-    } else {
-      setErrorInput(form.myEmail, ERROR_EMAIL);
-    }
-
-    if (form.myTel.value.match(/^(\+7|8)\s?(\(\d{3}\)|\d{3})\s?[\-]?\d{3}[\-]?\d{2}[\-]?\d{2}$/)) {
-    } else {
-      setErrorInput(form.myTel, ERROR_TEL);
-    }
-
-    if (form.myName.checkValidity() && form.myName.value !== '') {
-    } else {
-      setErrorInput(form.myName, ERROR_NAME);
-    }
-
-    console.log(checkValidityDate(form.myDate.value));
-    if (checkValidityDate(form.myDate.value)) {
+    formSubmitBtn.disabled = true;
+    if (validName && validEmail && validTel && validDate) {
+      formSubmitBtn.disabled = false;
     }
   }
-
-  function submitIforaForm() {}
 
   if (form) {
     form.myName.minLength = '2';
@@ -83,8 +107,13 @@ function main() {
       inputs[item].classList.add('ifora__input');
     });
   }
+
+  form.myName.addEventListener('input', inputName);
+  form.myEmail.addEventListener('input', inputEmail);
+  form.myTel.addEventListener('input', inputTel);
+  form.myDate.addEventListener('input', inputDate);
+
   form.addEventListener('input', inputIforaForm);
-  form.addEventListener('submit', submitIforaForm);
 }
 
 main();
