@@ -1,0 +1,8 @@
+.main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--pale-grey);
+  font-family: Proxima Nova Rg, sans-serif;
+}
