@@ -1,4 +1,4 @@
-.repair__input {
+input.ifora__input {
   padding-top: 14px;
   padding-bottom: 14px;
   padding-left: 20px;
@@ -19,7 +19,7 @@
   font-size: 15px;
 }
 
-input[type="submit"].repair__input {
+input[type="submit"].ifora__input {
   width: 140px;
   color: var(--white);
   background-color: var(--blue-blue);
@@ -29,10 +29,11 @@ input[type="submit"].repair__input {
   cursor: pointer;
 }
 
-input[type="submit"].repair__input:hover {
+
+input[type="submit"].ifora__input:hover {
   opacity: .8;
 }
 
-.repair__input:focus {
+.ifora__input:focus {
   background-color: var(--white);
 }

@@ -1,4 +1,4 @@
-.repair__button {
+.ifora__button {
   width: 156px;
   height: 50px;
   border-radius: 3px;
@@ -16,7 +16,7 @@
   margin-bottom: 45px;
 }
 
-.repair__button:hover {
+.ifora__button:hover {
   background-color: var(--cornflower-blue);
   color: var(--white);
 }
