@@ -1,5 +1,8 @@
 function main() {
-  const ERROR_NAME = 'Имя должно быть от 2 до 40 символов';
+  const ERROR_NAME = 'имя должно быть от 2 до 40 символов';
+  const ERROR_TEL ='телефон в формате: +7 (123) 456-78-90';
+  const ERROR_EMAIL='e-mail в формате: sega@yandex.ru'
+
   const inputs = document.querySelectorAll('input');
   const form = document.querySelector('.wpcf7-form');
   const formEmailSpan = form.querySelector('myEmail');
@@ -43,12 +46,18 @@ function main() {
 
     let valid = false;
 
-    if (form.myEmail.value.match(/^(\+7|8)\s?(\(\d{3}\)|\d{3})\s?[\-]?\d{3}[\-]?\d{2}[\-]?\d{2}$/)) {
-
+    if (
+      form.myEmail.value.match(
+        /^[A-Za-z]((\.|-)?[A-Za-z0-9]+)+@[A-Za-z0-9](-?[A-Za-z0-9]+)+(\.[A-Za-z]{2,})+$/
+      )
+    ) {
+    } else {
+      setErrorInput(form.myEmail, ERROR_EMAIL);
     }
 
     if (form.myTel.value.match(/^(\+7|8)\s?(\(\d{3}\)|\d{3})\s?[\-]?\d{3}[\-]?\d{2}[\-]?\d{2}$/)) {
-
+    } else {
+      setErrorInput(form.myTel, ERROR_TEL);
     }
 
     if (form.myName.checkValidity() && form.myName.value !== '') {
